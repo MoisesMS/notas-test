@@ -1,4 +1,5 @@
 const mysql = require("mysql")
+const path = require("path")
 require("dotenv").config()
 
 
@@ -10,8 +11,9 @@ const connection = mysql.createConnection({
 })
 
 connection.connect((err) => {
-  if(err) throw err
-  else console.log("Base de datos conectada...")
+  if(err){
+    console.log("Error. La base de datos no se ha podido conectar")
+  } else console.log("Base de datos conectada...")
 })
 
 const getNotes = (req, res) => {
@@ -23,7 +25,7 @@ const getNotes = (req, res) => {
     if(result.length > 0) {
       res.json(result)
     } else {
-      res.send("Vacío...")
+      res.sendFile(path.resolve(__dirname, "../public/notas.html"))
     }
   })
 }
