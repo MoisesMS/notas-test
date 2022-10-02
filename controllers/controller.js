@@ -20,7 +20,9 @@ const getNotes = (req, res) => {
   const sql = "SELECT * FROM notas"
 
   connection.query(sql, (err, result) => {
-    if(err) throw err
+    if(err) {
+      console.log("Error. No se ha podido conseguir los datos")
+    }
     
     if(result.length > 0) {
       res.json(result)
@@ -36,7 +38,9 @@ const getNotesForId = (req, res) => {
   const sql = "SELECT * FROM notas WHERE id = ?"
 
   connection.query(sql, [id], (err, result) => {
-    if(err) throw err
+    if(err) {
+      console.log("Error. No se ha podido conseguir los datos")
+    }
     
     if(result.length > 0) {
       res.json(result)
