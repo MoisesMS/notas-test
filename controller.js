@@ -28,9 +28,10 @@ const getNotes = (req, res) => {
 
 const getNotesForId = (req, res) => {
   const { id } = req.params
-  
 
-  connection.query("SELECT * FROM notas WHERE id = ?", [id], (err, result) => {
+  const sql = "SELECT * FROM notas WHERE id = ?"
+
+  connection.query(sql, [id], (err, result) => {
     if(err) throw err
     
     if(result.length > 0) {
