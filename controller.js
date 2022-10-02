@@ -9,8 +9,6 @@ const connection = mysql.createConnection({
   database: process.env.DDBB
 })
 
-console.log(process.env.password)
-
 connection.connect((err) => {
   if(err) throw err
   else console.log("Base de datos conectada...")
@@ -46,30 +44,64 @@ const getNotesForId = (req, res) => {
   })
 }
 
-//BUG Los datos se guardan pero el cliente no envía respuesta
 const insertNote = (req, res) => {
+
+  
   const titulo = req.body.titulo
   const descripcion = req.body.descripcion
-
-  const sql = "INSERT INTO notas (id, titulo, descripcion, completado) VALUES('', ?, ?, 0)"
-
-  console.log(titulo)
-  console.log(descripcion)
-
-  connection.query(sql, [titulo, descripcion], (err, result) => {
-    if(err) throw err
-  })
+  
+  if(!(titulo && descripcion)) {
+    return res.status(400).json({
+      message: "Datos insuficientes. Falta título y/o descripción",
+      status: 400
+    })
+  } else {
+    const sql = "INSERT INTO notas (id, titulo, descripcion, completado) VALUES('', ?, ?, 0)"
+  
+    connection.query(sql, [titulo, descripcion], (err, result) => {
+      if(err) {
+        return res.status(500).json({
+          message: "Error al crear la nota",
+          status: 500
+        })
+      } else {
+        return res.status(201).json({
+          message: "Nota creada",
+          status: 201
+        })
+      }
+    })
+  }
 }
 
-//BUG El recurso se elimina pero el cliente no envía una respuesta
 const deleteNote = (req, res) => {
   const id = req.body.id
 
-  const sql = "DELETE FROM notas WHERE id = ?"
+  if(!id) {
+    return res.status(400).json({
+      message: "Falta el identificador",
+      status: 400
+    }) 
+  } else {
+    const sql = "DELETE FROM notas WHERE id = ?"
+  
+    connection.query(sql, [id], (err, result) => {
+      if(err) {
+        return res.status(500).json({
+          message: "Error. No se ha podido eliminar la nota",
+          status: 500
+        })
+      } else {
+        return res.status(204).json({
+          message: "Nota eliminada con éxito",
+          status: 204
+        })
+      }
 
-  connection.query(sql, [id], (err, result) => {
-    if(err) throw err
-  })
+
+    })
+  }
+
 }
 
 
