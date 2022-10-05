@@ -80,6 +80,33 @@ const insertNote = (req, res) => {
   }
 }
 
+const updateNote = (req, res) => {
+  const id = req.body.id
+  const titulo = req.body.titulo
+  const descripcion = req.body.descripcion
+
+  if(!id && !titulo && !descripcion) {
+    return res.status(400).json({
+      message: "Faltan datos",
+      status: 400
+    })
+  } else {
+    const sql = "UPDATE notas SET titulo = ?, descripcion = ? WHERE id = ?"
+
+    connection.query(sql, [titulo, descripcion, id], (err, result) => {
+      if(err) {
+        return res.status(500).json({
+          message: "Error. No se ha podido actualizar la nota",
+          status: 500
+        })
+      } return res.status(204).json({
+        message: "Nota actualizada con éxito",
+        status: 204
+      })
+    })
+  }
+}
+
 const deleteNote = (req, res) => {
   const id = req.body.id
 
@@ -103,12 +130,9 @@ const deleteNote = (req, res) => {
           status: 204
         })
       }
-
-
     })
   }
-
 }
 
 
-module.exports = { getNotes, getNotesForId, insertNote, deleteNote }
+module.exports = { getNotes, getNotesForId, insertNote, deleteNote, updateNote }

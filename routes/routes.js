@@ -12,6 +12,7 @@ router.get("/", (req, res) => {
 router.get("/api/", controller.getNotes)
 router.get("/api/:id", controller.getNotesForId)
 router.post("/api/upload/", controller.insertNote)
+router.patch("/api/", controller.updateNote)
 router.delete("/api/", controller.deleteNote)
 
 module.exports = router
