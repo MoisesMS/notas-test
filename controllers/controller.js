@@ -116,9 +116,9 @@ const completeNote = (req, res) => {
       status: 400
     })
   } else {
-    const sql = "UPDATE notas SET completado = 1"
+    const sql = "UPDATE notas SET completado = 1 WHERE id = ?"
 
-    connection.query(sql, (err, result) => {
+    connection.query(sql, [id], (err, result) => {
       if(err) {
         return res.status(500).json({
           message: "Error. No se ha podido completar la nota",
@@ -126,10 +126,26 @@ const completeNote = (req, res) => {
         })
       } return res.status(200).json({
         message: "La nota se ha completado con éxito",
-        status: 204
+        status: 200
       })
     })
   }
+}
+
+const completeAllNotes = (req, res) => {
+  const sql = "UPDATE notas SET completado = 1"
+
+  connection.query(sql, (err, result) => {
+    if(err) {
+      return res.status(500).json({
+        message: "Error. No se han podido completar las notas",
+        status: 500
+      })
+    } return res.status(200).json({
+      message: "Las notas se han completado con éxito",
+      status: 200
+    })
+  })
 }
 
 const deleteNote = (req, res) => {
@@ -160,4 +176,4 @@ const deleteNote = (req, res) => {
 }
 
 
-module.exports = { getNotes, getNotesForId, insertNote, deleteNote, updateNote, completeNote }
+module.exports = { getNotes, getNotesForId, insertNote, deleteNote, updateNote, completeNote, completeAllNotes }
