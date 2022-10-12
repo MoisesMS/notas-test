@@ -18,6 +18,8 @@ Instala las dependencias
 npm install
 ~~~
 
+Importa la base de datos incluida en la carpeta bbdd
+
 Ejecuta el proyecto
 ~~~
 npm run start
@@ -71,6 +73,12 @@ JSON en el body de la petición
 Marca como completada la nota cuyo id se pasa como parámetro
 ~~~
 localhost:3000/api/1
+~~~
+
+### POST localhost:3000/api/
+Marca como completada todas las notas guardadas
+~~~
+localhost:3000/api
 ~~~
 
 ### DELETE localhost:3000/api
