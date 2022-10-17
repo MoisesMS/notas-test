@@ -1,18 +1,20 @@
-const mysql = require("mysql")
+const mysql = require("mysql2")
 const path = require("path")
 require("dotenv").config()
 
-
+const { DB_HOST, DB_USERNAME, DB_PASS, DB_DDBB } = process.env
+console.log(DB_DDBB, DB_HOST, DB_PASS, DB_USERNAME)
 const connection = mysql.createConnection({
-  host: process.env.HOST,
-  user: process.env.USERNAME,
-  password: process.env.PASS,
-  database: process.env.DDBB
+  host: DB_HOST,
+  user: DB_USERNAME,
+  password: DB_PASS,
+  database: DB_DDBB
 })
 
 connection.connect((err) => {
   if(err){
     console.log("Error. La base de datos no se ha podido conectar")
+    console.log(err)
   } else console.log("Base de datos conectada...")
 })
 
