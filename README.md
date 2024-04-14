@@ -25,6 +25,11 @@ Ejecuta el proyecto
 npm run start
 ~~~
 
+## Despliegue con Docker
+~~~
+docker-compose up
+~~~
+
 ## Rutas de la API
 
 ### GET localhost:3000/api/
